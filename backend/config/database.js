@@ -10,17 +10,23 @@ if (process.env.NODE_ENV === 'test') {
     sequelize = new Sequelize({
         dialect: 'sqlite',
         storage: ':memory:',
+        dialectModule: require('@libsql/sqlite3'), // <-- ADICIONADO: Para os testes funcionarem com o novo driver do Turso
         logging: false,
         define: {
             timestamps: true,
             underscored: true
         }
     });
-} else if (process.env.DB_DIALECT === 'sqlite' || !process.env.DB_NAME) {
-    // Usar SQLite como fallback ou se explicitamente configurado
+} else if (process.env.TURSO_DATABASE_URL || process.env.DB_DIALECT === 'sqlite' || !process.env.DB_NAME) {
+    // Conecta ao Turso se a URL existir, ou usa SQLite local como fallback inteligente
     sequelize = new Sequelize({
         dialect: 'sqlite',
-        storage: 'database.sqlite',
+        // Se existir a variável do Turso, usa ela. Senão, cria o arquivo local na sua máquina
+        storage: process.env.TURSO_DATABASE_URL || 'database.sqlite', 
+        dialectModule: require('@libsql/sqlite3'), // <-- AQUI ESTÁ A MÁGICA: Conecta ao Turso e resolve o erro do Render
+        dialectOptions: process.env.TURSO_AUTH_TOKEN ? {
+            authToken: process.env.TURSO_AUTH_TOKEN // Envia o token de autenticação apenas se ele existir
+        } : {},
         logging: false,
         define: {
             timestamps: true,
@@ -28,22 +34,19 @@ if (process.env.NODE_ENV === 'test') {
         }
     });
 } else {
-    // cria uma instância da classe 'Sequelize' para MySQL
+    // cria uma instância da classe 'Sequelize' para MySQL (caso mude de banco no futuro)
     sequelize = new Sequelize(
-        // variáveis carregas do arquivo .env 
-        // sobre o banco de dados
         process.env.DB_NAME,          // nome do banco de dados
         process.env.DB_USER,          // nome do usuário
         process.env.DB_PASSWORD,      // senha do usuário
         {
-            // sobre o servidor
-            host: process.env.DB_HOST || 'localhost', // endereço do servidor do banco de dados
-            port: process.env.DB_PORT || 3306, // porta do servidor do banco de dados
-            dialect: 'mysql',          // tipo do banco de dados
-            logging: false,            // liga/desliga log de SQL no terminal
+            host: process.env.DB_HOST || 'localhost', 
+            port: process.env.DB_PORT || 3306, 
+            dialect: 'mysql',          
+            logging: false,            
             define: {
-                timestamps: true,       // cria os campos createdAt e updatedAt
-                underscored: true       // usa a forma created_at e updated_at
+                timestamps: true,       
+                underscored: true       
             }
         }
     );
