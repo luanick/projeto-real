@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'test') {
     // Configuração em memória para rodar testes rápidos sem dependência externa
     sequelize = new Sequelize({
         dialect: 'sqlite',
-        storage: ':memory:',
+        storage: 'file::memory:',
         dialectModule: require('@libsql/sqlite3'), // <-- ADICIONADO: Para os testes funcionarem com o novo driver do Turso
         logging: false,
         define: {
@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'test') {
     sequelize = new Sequelize({
         dialect: 'sqlite',
         // Se existir a variável do Turso, usa ela. Senão, cria o arquivo local na sua máquina
-        storage: process.env.TURSO_DATABASE_URL || 'database.sqlite',
+        storage: process.env.TURSO_DATABASE_URL || 'file:database.sqlite',
         dialectModule: require('@libsql/sqlite3'), // <-- AQUI ESTÁ A MÁGICA: Conecta ao Turso e resolve o erro do Render
         dialectOptions: {
             authToken: process.env.TURSO_AUTH_TOKEN
