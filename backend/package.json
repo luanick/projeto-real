@@ -32,6 +32,7 @@
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.9",
     "nodemon": "^3.1.14",
+    "sqlite3": "^6.0.1",
     "supertest": "^7.2.2",
     "vitest": "^4.1.9"
   }
