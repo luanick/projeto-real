@@ -1,0 +1,28 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-lg rounded-3">
+                <div class="card-header bg-primary text-white text-center py-4 rounded-top-3">
+                    <h2 class="fw-bold mb-0"><i class="bi bi-book"></i> Biblioteca</h2>
+                    <p class="mb-0 text-white-50 mt-1">Conecte-se para gerenciar seus empréstimos</p>
+                </div>
+                <div class="card-body p-4">
+                    <form action="/login" method="POST">
+                        <div class="mb-3">
+                            <label for="login" class="form-label fw-semibold">E-mail ou Usuário</label>
+                            <input type="text" class="form-control form-control-lg" id="login" name="login" placeholder="Seu e-mail ou nome de usuário" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-semibold">Senha</label>
+                            <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Sua senha" required>
+                        </div>
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold">Entrar</button>
+                        </div>
+                        <p class="text-center text-muted mb-0">Não tem uma conta? <a href="/register" class="text-primary fw-semibold">Crie uma agora</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

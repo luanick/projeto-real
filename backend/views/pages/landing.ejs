@@ -1,0 +1,45 @@
+<!-- Hero Section -->
+<header class="hero-section text-center py-5 text-white" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
+    <div class="container my-5">
+        <h1 class="display-3 fw-bold mb-3">Compartilhe Conhecimento</h1>
+        <p class="lead mb-4">Anuncie seus livros para empréstimo e encontre obras incríveis recomendadas por pessoas próximas a você.</p>
+        <% if (!user) { %>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/register" class="btn btn-warning btn-lg px-5 text-dark fw-bold">Criar Conta</a>
+                <a href="/login" class="btn btn-outline-light btn-lg px-5">Entrar</a>
+            </div>
+        <% } else { %>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/books" class="btn btn-warning btn-lg px-5 text-dark fw-bold">Ver Catálogo de Livros</a>
+            </div>
+        <% } %>
+    </div>
+</header>
+
+<!-- How It Works Section -->
+<div class="container my-5">
+    <h2 class="text-center fw-bold mb-5">Como Funciona</h2>
+    <div class="row g-4 text-center">
+        <div class="col-md-4">
+            <div class="p-4 shadow-sm rounded bg-light">
+                <div class="mb-3 text-primary"><i class="bi bi-person-plus-fill" style="font-size: 3rem;"></i></div>
+                <h4 class="fw-bold">1. Cadastre-se</h4>
+                <p class="text-muted">Crie sua conta na plataforma em poucos cliques e monte seu perfil de leitor.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 shadow-sm rounded bg-light">
+                <div class="mb-3 text-success"><i class="bi bi-book-half" style="font-size: 3rem;"></i></div>
+                <h4 class="fw-bold">2. Anuncie Livros</h4>
+                <p class="text-muted">Cadastre os livros que você possui em casa e que gostaria de emprestar para outros.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 shadow-sm rounded bg-light">
+                <div class="mb-3 text-warning"><i class="bi bi-chat-heart-fill" style="font-size: 3rem;"></i></div>
+                <h4 class="fw-bold">3. Empréstimo</h4>
+                <p class="text-muted">Demonstre interesse nos livros dos colegas e combine a entrega facilmente.</p>
+            </div>
+        </div>
+    </div>
+</div>

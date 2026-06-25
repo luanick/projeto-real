@@ -1,0 +1,320 @@
+main {
+    flex: 1;
+}
+
+
+:root {
+    --primary-color: #ff0050;
+    /* TikTok-like Red */
+    --secondary-color: #00f2ea;
+    /* TikTok-like Cyan */
+}
+
+
+body {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.navbar-brand {
+    font-weight: 800;
+    color: var(--primary-color) !important;
+    font-size: 1.5rem;
+}
+
+
+.nav-link {
+    color: #333;
+    font-weight: 500;
+    padding: 12px 20px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+
+.nav-link:hover, .nav-link.active {
+    background-color: rgba(255, 0, 80, 0.05);
+    color: var(--primary-color);
+}
+
+
+.hero-section {
+    background: linear-gradient(135deg, #000 0%, #222 100%);
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+}
+
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    padding: 12px;
+    font-weight: 600;
+}
+
+
+.btn-primary:hover {
+    background-color: #e60045;
+    border-color: #e60045;
+}
+
+
+.video-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+
+.video-card:hover {
+    transform: translateY(-5px);
+}
+
+
+.thumbnail-placeholder {
+    width: 100%;
+    aspect-ratio: 9/16;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    position: relative;
+}
+
+
+.play-icon {
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+
+.badge-views {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    color: white;
+}
+
+
+.auth-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+
+.auth-header {
+    background: linear-gradient(135deg, #000 0%, #222 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(255, 0, 80, 0.25);
+}
+
+
+footer {
+    margin-top: auto;
+}
+
+
+.sidebar {
+    background: white;
+    border-right: 1px solid #eee;
+    height: calc(100vh - 56px);
+    position: sticky;
+    top: 56px;
+}
+
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #ddd;
+}
+
+
+.profile-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    background: white;
+}
+
+
+.avatar-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background-color: #eee;
+}
+
+
+
+/* Estilos para o Video Card no Feed */
+.video-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+
+.video-card:hover {
+    transform: translateY(-5px);
+}
+
+
+.video-card .thumbnail-placeholder {
+    width: 100%;
+    padding-top: 177.77%; /* 9:16 Aspect Ratio */
+    position: relative;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+
+.video-card .thumbnail-placeholder .play-icon {
+    position: absolute;
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+.video-card .thumbnail-placeholder .badge-views {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+
+.video-card .rounded-circle {
+    object-fit: cover;
+}
+
+
+/* Estilos para a página de vídeo */
+.video-player-container {
+    position: relative;
+    width: 100%;
+    padding-top: 177.77%; /* 9:16 Aspect Ratio */
+    background-color: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 360px; /* Largura máxima para vídeos verticais */
+}
+
+
+.video-player-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Garante que o vídeo seja exibido completamente */
+}
+
+
+.comments-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+
+
+/* Estilos para o perfil do usuário */
+.profile-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    background: white;
+}
+
+.avatar-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background-color: #eee;
+}
+
+/* Garante que o grid de vídeos no perfil seja responsivo */
+.profile-videos-grid .video-card {
+    margin-bottom: 20px;
+}
+
+
+/* Estilos para o botão de like */
+#likeButton {
+    background-color: #f0f2f5;
+    border: none;
+    color: #333;
+    font-weight: 600;
+}
+
+#likeButton:hover {
+    background-color: #e0e2e5;
+}
+
+#likeButton i.bi-heart-fill {
+    color: var(--primary-color);
+}
+
+/* Estilos para a seção de comentários */
+.comments-section .card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.comments-section .list-group-item {
+    border-left: none;
+    border-right: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.comments-section .list-group-item:last-child {
+    border-bottom: none;
+}
+
+.comments-section .list-group-item img {
+    flex-shrink: 0;
+}
