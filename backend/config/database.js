@@ -22,11 +22,11 @@ if (process.env.NODE_ENV === 'test') {
     sequelize = new Sequelize({
         dialect: 'sqlite',
         // Se existir a variável do Turso, usa ela. Senão, cria o arquivo local na sua máquina
-        storage: process.env.TURSO_DATABASE_URL || 'database.sqlite', 
+        storage: process.env.TURSO_DATABASE_URL || 'database.sqlite',
         dialectModule: require('@libsql/sqlite3'), // <-- AQUI ESTÁ A MÁGICA: Conecta ao Turso e resolve o erro do Render
-        dialectOptions: process.env.TURSO_AUTH_TOKEN ? {
-            authToken: process.env.TURSO_AUTH_TOKEN // Envia o token de autenticação apenas se ele existir
-        } : {},
+        dialectOptions: {
+            authToken: process.env.TURSO_AUTH_TOKEN
+        },
         logging: false,
         define: {
             timestamps: true,
@@ -40,13 +40,13 @@ if (process.env.NODE_ENV === 'test') {
         process.env.DB_USER,          // nome do usuário
         process.env.DB_PASSWORD,      // senha do usuário
         {
-            host: process.env.DB_HOST || 'localhost', 
-            port: process.env.DB_PORT || 3306, 
-            dialect: 'mysql',          
-            logging: false,            
+            host: process.env.DB_HOST || 'localhost',
+            port: process.env.DB_PORT || 3306,
+            dialect: 'mysql',
+            logging: false,
             define: {
-                timestamps: true,       
-                underscored: true       
+                timestamps: true,
+                underscored: true
             }
         }
     );
