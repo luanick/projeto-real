@@ -57,10 +57,11 @@ require("./config/associations");
 const sequelize = require('./config/database');
 
 // Sincroniza o modelo com o banco de dados (apenas fora do ambiente de testes)
+/* desligado temporariamente
 if (process.env.NODE_ENV !== 'test') {
     sequelize.sync()
         .then(() => console.log('Banco de dados sincronizado!'))
         .catch(err => console.error('Erro ao sincronizar banco:', err));
 }
-
+*/
 module.exports = app;
