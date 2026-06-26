@@ -52,5 +52,7 @@ if (process.env.NODE_ENV === 'test') {
     );
 }
 
+  
+
 // torna a instância 'sequelize' publica para uso
 module.exports = sequelize;
