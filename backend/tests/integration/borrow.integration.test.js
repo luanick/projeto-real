@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../app');
-const { User, Book, BorrowRequest } = require('../../modules/associations');
+const { User, Book, BorrowRequest } = require('../../config/associations');
 
 beforeAll(async () => {
     // Sincroniza o banco de dados antes dos testes
