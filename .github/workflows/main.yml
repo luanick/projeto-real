@@ -1,0 +1,36 @@
+name: Execução de Testes Automatizados
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    # ISSO AQUI SALVA VIDAS: Avisa o robô que todos os comandos npm devem rodar dentro da pasta backend
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+        # Avisa o cache que o arquivo de dependências também está escondido no backend
+        cache-dependency-path: './backend/package-lock.json' 
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run integration tests
+      run: npm run test:integration
+      env:
+        NODE_ENV: test
