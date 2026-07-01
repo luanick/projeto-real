@@ -44,7 +44,9 @@
                                             <% if (req.status === 'pendente') { %>
                                                 <span class="badge bg-warning-subtle text-warning px-2.5 py-1.5 rounded-pill">Pendente</span>
                                             <% } else if (req.status === 'aprovado') { %>
-                                                <span class="badge bg-success-subtle text-success px-2.5 py-1.5 rounded-pill">Aprovado</span>
+                                                <span class="badge bg-success-subtle text-success px-2.5 py-1.5 rounded-pill">Emprestado</span>
+                                            <% } else if (req.status === 'devolvido') { %>
+                                                <span class="badge bg-info-subtle text-info px-2.5 py-1.5 rounded-pill">Devolvido</span>
                                             <% } else { %>
                                                 <span class="badge bg-danger-subtle text-danger px-2.5 py-1.5 rounded-pill">Recusado</span>
                                             <% } %>
@@ -74,6 +76,14 @@
                                             <form action="/borrows/<%= req.id %>/reject" method="POST" class="w-50 m-0">
                                                 <button type="submit" class="btn btn-outline-danger w-100 fw-semibold py-2 btn-sm">
                                                     <i class="bi bi-x-lg"></i> Recusar
+                                                </button>
+                                            </form>
+                                        </div>
+                                    <% } else if (req.status === 'aprovado') { %>
+                                        <div class="mt-2">
+                                            <form action="/borrows/<%= req.id %>/return" method="POST" class="m-0">
+                                                <button type="submit" class="btn btn-outline-primary w-100 fw-bold py-2 btn-sm">
+                                                    <i class="bi bi-arrow-counterclockwise"></i> Confirmar Devolução
                                                 </button>
                                             </form>
                                         </div>
@@ -111,14 +121,16 @@
                                             <% if (req.status === 'pendente') { %>
                                                 <span class="badge bg-warning-subtle text-warning px-2.5 py-1.5 rounded-pill">Pendente</span>
                                             <% } else if (req.status === 'aprovado') { %>
-                                                <span class="badge bg-success-subtle text-success px-2.5 py-1.5 rounded-pill">Aprovado</span>
+                                                <span class="badge bg-success-subtle text-success px-2.5 py-1.5 rounded-pill">Emprestado</span>
+                                            <% } else if (req.status === 'devolvido') { %>
+                                                <span class="badge bg-primary-subtle text-primary px-2.5 py-1.5 rounded-pill">Devolvido</span>
                                             <% } else { %>
                                                 <span class="badge bg-danger-subtle text-danger px-2.5 py-1.5 rounded-pill">Recusado</span>
                                             <% } %>
                                         </div>
                                     </div>
                                     
-                                    <div class="bg-light p-3 rounded-3 mt-auto">
+                                    <div class="bg-light p-3 rounded-3 mt-auto mb-3">
                                         <div class="d-flex align-items-center">
                                             <i class="bi bi-person-workspace text-secondary fs-4 me-2"></i>
                                             <div>
@@ -130,6 +142,16 @@
                                             <i class="bi bi-clock me-1"></i> Solicitado em: <%= new Date(req.createdAt).toLocaleDateString('pt-BR') %>
                                         </small>
                                     </div>
+
+                                    <% if (req.status === 'aprovado') { %>
+                                        <div class="mt-2">
+                                            <form action="/borrows/<%= req.id %>/return" method="POST" class="m-0">
+                                                <button type="submit" class="btn btn-primary w-100 fw-bold py-2 btn-sm">
+                                                    <i class="bi bi-arrow-counterclockwise"></i> Devolver Livro
+                                                </button>
+                                            </form>
+                                        </div>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>

@@ -7,5 +7,6 @@ router.post('/books/:id/request', isAuthenticated, borrowController.requestBorro
 router.get('/borrows', isAuthenticated, borrowController.listBorrows);
 router.post('/borrows/:id/approve', isAuthenticated, borrowController.approveBorrow);
 router.post('/borrows/:id/reject', isAuthenticated, borrowController.rejectBorrow);
+router.post('/borrows/:id/return', isAuthenticated, borrowController.returnBorrow);
 
 module.exports = router;

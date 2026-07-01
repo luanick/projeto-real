@@ -140,10 +140,42 @@ async function rejectBorrowRequest(requestId, ownerId) {
     return request;
 }
 
+async function returnBook(requestId, userId) {
+    const request = await BorrowRequest.findByPk(requestId);
+    if (!request) {
+        throw new Error('Solicitação de empréstimo não encontrada.');
+    }
+
+    // Apenas o solicitante (requester) ou o dono (owner) podem devolver ou confirmar a devolução
+    if (request.requesterId !== userId && request.ownerId !== userId) {
+        throw new Error('Você não tem permissão para devolver este livro.');
+    }
+
+    if (request.status !== 'aprovado') {
+        throw new Error('Este livro não está marcado como emprestado ou a solicitação não foi aprovada.');
+    }
+
+    const book = await Book.findByPk(request.bookId);
+    if (!book) {
+        throw new Error('Livro não encontrado.');
+    }
+
+    // Marca o livro como disponível novamente
+    book.status = 'disponivel';
+    await book.save();
+
+    // Marca o empréstimo como devolvido
+    request.status = 'devolvido';
+    await request.save();
+
+    return request;
+}
+
 module.exports = {
     requestBorrow,
     listIncomingRequests,
     listOutgoingRequests,
     approveBorrowRequest,
-    rejectBorrowRequest
+    rejectBorrowRequest,
+    returnBook
 };

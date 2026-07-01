@@ -62,3 +62,18 @@ exports.rejectBorrow = asyncHandler(async (req, res) => {
     req.flash('success', 'Solicitação de empréstimo recusada com sucesso.');
     res.redirect('/borrows');
 });
+
+exports.returnBorrow = asyncHandler(async (req, res) => {
+    const requestId = req.params.id;
+    const userId = req.session.user.id;
+
+    try {
+        await borrowService.returnBook(requestId, userId);
+    } catch (err) {
+        err.status = 400;
+        throw err;
+    }
+
+    req.flash('success', 'Livro devolvido com sucesso!');
+    res.redirect('/borrows');
+});

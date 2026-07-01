@@ -3,6 +3,15 @@ const { Sequelize } = require('sequelize');
 // carrega as variaveis de ambiente através do módulo 'dotenv'
 require('dotenv').config();
 
+const fs = require('fs');
+const originalMkdirSync = fs.mkdirSync;
+fs.mkdirSync = function (path, options) {
+    if (typeof path === 'string' && (path.includes('libsql:') || path.includes('http:') || path.includes('https:'))) {
+        return;
+    }
+    return originalMkdirSync.apply(this, arguments);
+};
+
 let sequelize;
 
 if (process.env.NODE_ENV === 'test') {
