@@ -19,3 +19,46 @@ exports.requestBorrow = asyncHandler(async (req, res) => {
     req.flash('success', 'Solicitação de empréstimo enviada com sucesso!');
     res.redirect('/books');
 });
+
+exports.listBorrows = asyncHandler(async (req, res) => {
+    const userId = req.session.user.id;
+    
+    const incomingRequests = await borrowService.listIncomingRequests(userId);
+    const outgoingRequests = await borrowService.listOutgoingRequests(userId);
+    
+    res.render('borrows', { 
+        title: 'Biblioteca de Empréstimos - Solicitações', 
+        incomingRequests, 
+        outgoingRequests 
+    });
+});
+
+exports.approveBorrow = asyncHandler(async (req, res) => {
+    const requestId = req.params.id;
+    const ownerId = req.session.user.id;
+
+    try {
+        await borrowService.approveBorrowRequest(requestId, ownerId);
+    } catch (err) {
+        err.status = 400;
+        throw err;
+    }
+
+    req.flash('success', 'Solicitação de empréstimo aprovada com sucesso!');
+    res.redirect('/borrows');
+});
+
+exports.rejectBorrow = asyncHandler(async (req, res) => {
+    const requestId = req.params.id;
+    const ownerId = req.session.user.id;
+
+    try {
+        await borrowService.rejectBorrowRequest(requestId, ownerId);
+    } catch (err) {
+        err.status = 400;
+        throw err;
+    }
+
+    req.flash('success', 'Solicitação de empréstimo recusada com sucesso.');
+    res.redirect('/borrows');
+});

@@ -10,6 +10,7 @@ const errorHandler = require('./middlewares/errorHandler');
 var indexRouter = require('./routes/index');
 var userRoutes = require("./modules/user/userRoutes");
 var bookRoutes = require("./modules/book/bookRoutes");
+var borrowRoutes = require("./modules/borrow/borrowRoutes");
 
 var app = express();
 var expressLayouts = require('express-ejs-layouts');
@@ -43,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/', userRoutes);
 app.use('/', bookRoutes);
+app.use('/', borrowRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

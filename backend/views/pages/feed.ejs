@@ -29,8 +29,32 @@
                             
                             <div class="d-flex justify-content-between align-items-center mt-auto">
                                 <small class="text-muted">Anunciado por <strong><%= book.owner ? book.owner.username : 'Desconhecido' %></strong></small>
-                                <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">Disponível</span>
+                                <% if (book.status === 'emprestado') { %>
+                                    <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill">Emprestado</span>
+                                <% } else { %>
+                                    <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">Disponível</span>
+                                <% } %>
                             </div>
+                            
+                            <% if (user) { %>
+                                <div class="mt-3">
+                                    <% if (book.ownerId !== user.id && book.status === 'disponivel') { %>
+                                        <form action="/books/<%= book.id %>/request" method="POST" class="m-0">
+                                            <button type="submit" class="btn btn-outline-primary w-100 fw-semibold btn-sm">
+                                                <i class="bi bi-arrow-left-right"></i> Solicitar Empréstimo
+                                            </button>
+                                        </form>
+                                    <% } else if (book.ownerId === user.id) { %>
+                                        <button class="btn btn-outline-secondary w-100 fw-semibold btn-sm" disabled>
+                                            <i class="bi bi-person"></i> Seu Livro
+                                        </button>
+                                    <% } else if (book.status === 'emprestado') { %>
+                                        <button class="btn btn-outline-secondary w-100 fw-semibold btn-sm" disabled>
+                                            <i class="bi bi-x-circle"></i> Indisponível
+                                        </button>
+                                    <% } %>
+                                </div>
+                            <% } %>
                         </div>
                     </div>
                 </div>

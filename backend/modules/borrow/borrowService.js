@@ -1,5 +1,6 @@
 const BorrowRequest = require('./borrowModel');
 const Book = require('../book/bookModel');
+const User = require('../user/userModel');
 
 async function requestBorrow(bookId, requesterId) {
     // 1. Busca o livro para validar existência e dono
@@ -36,8 +37,113 @@ async function requestBorrow(bookId, requesterId) {
     return borrowRequest;
 }
 
-// Futuramente você pode adicionar métodos como listUserRequests, approveBorrow, etc.
+async function listIncomingRequests(ownerId) {
+    return await BorrowRequest.findAll({
+        where: { ownerId },
+        include: [
+            {
+                model: Book,
+                as: 'book',
+                attributes: ['id', 'title', 'author', 'status']
+            },
+            {
+                model: User,
+                as: 'requester',
+                attributes: ['id', 'username', 'fullName']
+            }
+        ],
+        order: [['createdAt', 'DESC']]
+    });
+}
+
+async function listOutgoingRequests(requesterId) {
+    return await BorrowRequest.findAll({
+        where: { requesterId },
+        include: [
+            {
+                model: Book,
+                as: 'book',
+                attributes: ['id', 'title', 'author', 'status']
+            },
+            {
+                model: User,
+                as: 'owner',
+                attributes: ['id', 'username', 'fullName']
+            }
+        ],
+        order: [['createdAt', 'DESC']]
+    });
+}
+
+async function approveBorrowRequest(requestId, ownerId) {
+    const request = await BorrowRequest.findByPk(requestId);
+    if (!request) {
+        throw new Error('Solicitação de empréstimo não encontrada.');
+    }
+
+    if (request.ownerId !== ownerId) {
+        throw new Error('Você não tem permissão para aprovar esta solicitação.');
+    }
+
+    if (request.status !== 'pendente') {
+        throw new Error('Esta solicitação não está mais pendente.');
+    }
+
+    const book = await Book.findByPk(request.bookId);
+    if (!book) {
+        throw new Error('Livro não encontrado.');
+    }
+
+    if (book.status === 'emprestado') {
+        throw new Error('Este livro já está emprestado.');
+    }
+
+    // Aprova a solicitação atual
+    request.status = 'aprovado';
+    await request.save();
+
+    // Altera o status do livro para emprestado
+    book.status = 'emprestado';
+    await book.save();
+
+    // Rejeita todas as outras solicitações pendentes para o mesmo livro
+    await BorrowRequest.update(
+        { status: 'rejeitado' },
+        {
+            where: {
+                bookId: book.id,
+                status: 'pendente'
+            }
+        }
+    );
+
+    return request;
+}
+
+async function rejectBorrowRequest(requestId, ownerId) {
+    const request = await BorrowRequest.findByPk(requestId);
+    if (!request) {
+        throw new Error('Solicitação de empréstimo não encontrada.');
+    }
+
+    if (request.ownerId !== ownerId) {
+        throw new Error('Você não tem permissão para rejeitar esta solicitação.');
+    }
+
+    if (request.status !== 'pendente') {
+        throw new Error('Esta solicitação não está mais pendente.');
+    }
+
+    request.status = 'rejeitado';
+    await request.save();
+
+    return request;
+}
 
 module.exports = {
-    requestBorrow
+    requestBorrow,
+    listIncomingRequests,
+    listOutgoingRequests,
+    approveBorrowRequest,
+    rejectBorrowRequest
 };
